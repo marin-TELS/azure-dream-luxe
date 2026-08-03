@@ -1,6 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNavigation } from "@/components/SiteNavigation";
 import { Hero } from "@/components/Hero";
+import { Introduction } from "@/components/sections/Introduction";
+import { TheVilla } from "@/components/sections/TheVilla";
+import { Spaces } from "@/components/sections/Spaces";
+import { Amenities } from "@/components/sections/Amenities";
+import { Gallery } from "@/components/sections/Gallery";
+import { Location } from "@/components/sections/Location";
+import { Pricing } from "@/components/sections/Pricing";
+import { FinalCta } from "@/components/sections/FinalCta";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const HERO_IMAGE =
   "https://www.villanovo.fr/photos/10916/cote-dazur-villa-stg-102248455669a583357a0882.61075939.1920.jpg";
@@ -35,7 +44,16 @@ function Index() {
       <SiteNavigation />
       <main>
         <Hero />
+        <Introduction />
+        <TheVilla />
+        <Spaces />
+        <Amenities />
+        <Gallery />
+        <Location />
+        <Pricing />
+        <FinalCta />
       </main>
+      <SiteFooter />
     </div>
   );
 }
