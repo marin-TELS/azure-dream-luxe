@@ -78,7 +78,7 @@ export function SiteNavigation() {
               light ? "text-foreground" : "text-background"
             }`}
           >
-            {open ? <Menu className="h-6 w-6 opacity-0" /> : <Menu className="h-6 w-6" />}
+            <Menu className="h-6 w-6" />
           </button>
         </div>
       </div>
