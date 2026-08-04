@@ -8,6 +8,7 @@ import { Amenities } from "@/components/sections/Amenities";
 import { Gallery } from "@/components/sections/Gallery";
 import { Location } from "@/components/sections/Location";
 import { Pricing } from "@/components/sections/Pricing";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { SiteFooter } from "@/components/SiteFooter";
 
