@@ -52,6 +52,7 @@ function Index() {
         <Gallery />
         <Location />
         <Pricing />
+        <FaqSection />
         <FinalCta />
       </main>
       <SiteFooter />
