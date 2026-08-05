@@ -28,7 +28,7 @@ export function Card({
   return (
     <div
       className={`rounded-2xl shadow-sm ${className}`}
-      style={{ background: APPLE.card, ...style }}
+      style={{ background: APPLE.card, ...(style ?? {}) }}
     >
       {children}
     </div>
@@ -49,7 +49,7 @@ export function StatCard({
   children?: ReactNode;
 }) {
   return (
-    <Card className="p-5 md:p-6" style={accent ? { background: accent } : undefined}>
+    <Card className="p-5 md:p-6" style={{ background: accent ?? APPLE.card }}>
       <p className="text-[13px]" style={{ color: APPLE.muted }}>
         {label}
       </p>
@@ -84,19 +84,19 @@ export function Btn({
   disabled?: boolean;
   className?: string;
 }) {
-  const styles: Record<string, React.CSSProperties> = {
+  const styles = {
     primary: { background: APPLE.blue, color: "#fff" },
-    secondary: { background: "#f５f5f7", color: APPLE.text, border: `1px solid ${APPLE.border}` },
+    secondary: { background: APPLE.bg, color: APPLE.text, border: `1px solid ${APPLE.border}` },
     danger: { background: "#fff", color: APPLE.red, border: `1px solid ${APPLE.border}` },
     ghost: { background: "transparent", color: APPLE.blue },
-  };
+  } satisfies Record<string, React.CSSProperties>;
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
       className={`rounded-full px-5 py-2.5 text-[14px] font-medium transition-opacity hover:opacity-85 disabled:opacity-50 ${className}`}
-      style={variant === "secondary" ? { ...styles.secondary, background: APPLE.bg } : styles[variant]}
+      style={styles[variant]}
     >
       {children}
     </button>
