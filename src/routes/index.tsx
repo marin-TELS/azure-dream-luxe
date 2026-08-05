@@ -9,8 +9,11 @@ import { Gallery } from "@/components/sections/Gallery";
 import { Location } from "@/components/sections/Location";
 import { Pricing } from "@/components/sections/Pricing";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { Avis } from "@/components/sections/Avis";
+import { BookingSection } from "@/components/sections/BookingSection";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Toaster } from "sonner";
 
 const HERO_IMAGE =
   "https://www.villanovo.fr/photos/10916/cote-dazur-villa-stg-102248455669a583357a0882.61075939.1920.jpg";
@@ -53,9 +56,12 @@ function Index() {
         <Location />
         <Pricing />
         <FaqSection />
+        <Avis />
+        <BookingSection />
         <FinalCta />
       </main>
       <SiteFooter />
+      <Toaster position="top-center" richColors />
     </div>
   );
 }

@@ -6,6 +6,7 @@ const links = [
   { label: "Galerie", href: "#galerie" },
   { label: "Tarifs", href: "#tarifs" },
   { label: "Saint-Tropez", href: "#saint-tropez" },
+  { label: "Avis", href: "#avis" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -64,7 +65,7 @@ export function SiteNavigation() {
 
         <div className="flex items-center gap-4">
           <a
-            href="#contact"
+            href="#reserver"
             className="hidden rounded-[2px] bg-accent px-7 py-[14px] text-[13px] uppercase tracking-[0.12em] text-accent-foreground transition-all duration-300 hover:bg-background hover:text-accent hover:shadow-[inset_0_0_0_1px_var(--color-accent)] lg:inline-block"
           >
             Réserver
@@ -110,7 +111,7 @@ export function SiteNavigation() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="#reserver"
               onClick={() => setOpen(false)}
               className="mt-4 rounded-[2px] bg-accent px-7 py-[14px] text-[13px] uppercase tracking-[0.12em] text-accent-foreground"
             >
