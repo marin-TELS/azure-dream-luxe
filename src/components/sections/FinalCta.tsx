@@ -11,15 +11,26 @@ export function FinalCta() {
           En réservant directement, vous traitez avec le propriétaire. Pas de commission, pas
           d'intermédiaire. Réponse sous 24 heures.
         </p>
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <a
+            href="mailto:contact@villarevdazur.fr"
+            className="font-display text-[24px] text-background transition-colors duration-[250ms] hover:text-accent md:text-[32px]"
+          >
+            contact@villarevdazur.fr
+          </a>
+          <a
+            href="tel:+33600000000"
+            className="text-[16px] tracking-[0.1em] text-muted-foreground transition-colors duration-[250ms] hover:text-accent md:text-[18px]"
+          >
+            +33 6 00 00 00 00
+          </a>
+        </div>
         <a
-          href="mailto:"
+          href="#reserver"
           className="mt-10 inline-block rounded-[2px] bg-accent px-11 py-[18px] text-[13px] uppercase tracking-[0.12em] text-accent-foreground transition-colors duration-[250ms] hover:bg-background hover:text-foreground"
         >
-          Contacter le propriétaire
+          ↑ Voir le formulaire de réservation
         </a>
-        <p className="mt-6 text-[16px] text-muted-foreground">
-          [Téléphone à compléter] · [Email à compléter]
-        </p>
       </Reveal>
     </section>
   );
