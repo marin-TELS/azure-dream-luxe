@@ -1,6 +1,5 @@
 import {
   Bar,
-  BarChart,
   CartesianGrid,
   ComposedChart,
   Legend,
@@ -202,5 +201,3 @@ function SecondaryStat({
     </div>
   );
 }
-
-export { BarChart };

@@ -22,8 +22,8 @@ export function Card({
   style,
 }: {
   children: ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
+  className?: string | undefined;
+  style?: React.CSSProperties | undefined;
 }) {
   return (
     <div
@@ -44,9 +44,9 @@ export function StatCard({
 }: {
   label: string;
   value: ReactNode;
-  hint?: string;
-  accent?: string;
-  children?: ReactNode;
+  hint?: string | undefined;
+  accent?: string | undefined;
+  children?: ReactNode | undefined;
 }) {
   return (
     <Card className="p-5 md:p-6" style={{ background: accent ?? APPLE.card }}>
@@ -78,11 +78,11 @@ export function Btn({
   className = "",
 }: {
   children: ReactNode;
-  onClick?: () => void;
-  variant?: "primary" | "secondary" | "danger" | "ghost";
-  type?: "button" | "submit";
-  disabled?: boolean;
-  className?: string;
+  onClick?: (() => void) | undefined;
+  variant?: "primary" | "secondary" | "danger" | "ghost" | undefined;
+  type?: "button" | "submit" | undefined;
+  disabled?: boolean | undefined;
+  className?: string | undefined;
 }) {
   const styles = {
     primary: { background: APPLE.blue, color: "#fff" },
