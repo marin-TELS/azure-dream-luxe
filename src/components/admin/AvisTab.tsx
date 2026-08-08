@@ -121,6 +121,12 @@ function AvisCard({
             {a.source}
           </Badge>
         )}
+        {a.verifie === true && (
+          <Badge color={APPLE.green} bg="rgba(52,199,89,0.14)">
+            <BadgeCheck size={14} className="mr-1" />
+            Séjour vérifié
+          </Badge>
+        )}
       </div>
       {a.titre && (
         <p className="text-[16px] font-semibold tracking-tight" style={{ color: APPLE.text }}>
@@ -268,6 +274,10 @@ function NouvelAvis({
               </option>
             ))}
           </select>
+          <p className="mt-1.5 text-[12px] leading-snug" style={{ color: APPLE.muted }}>
+            Un avis saisi manuellement ne peut pas être marqué comme vérifié. Seuls les avis
+            déposés via le lien envoyé après le séjour le sont.
+          </p>
         </Field>
         <div className="flex items-end">
           <Btn variant="primary" type="submit" disabled={busy} className="w-full">
