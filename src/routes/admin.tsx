@@ -270,7 +270,9 @@ function AdminPage() {
           </p>
         ) : (
           <>
-            {tab === "apercu" && <OverviewTab stats={stats} />}
+            {tab === "apercu" && (
+              <OverviewTab stats={stats} onVoirAvis={() => setTab("avis")} />
+            )}
             {tab === "demandes" && (
               <DemandesTab
                 reservations={reservations}

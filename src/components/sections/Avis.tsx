@@ -13,6 +13,7 @@ type AvisItem = {
   auteur_nom?: string | null;
   date_sejour?: string | null;
   reponse?: string | null;
+  verifie?: boolean;
 };
 
 type AvisResponse = {
@@ -20,6 +21,9 @@ type AvisResponse = {
   nombre?: number;
   moyenne?: number;
   repartition?: { note: number; nombre: number }[];
+  nombre_verifies?: number;
+  moyenne_verifies?: number;
+  mention_legale?: string | null;
 };
 
 function moisSejour(date?: string | null) {
@@ -75,6 +79,7 @@ export function Avis() {
             <Stars value={moyenne} size={22} className="mt-4 justify-center" />
             <p className="mt-3 text-[14px] tracking-[0.1em] text-muted-foreground">
               {nombre} avis
+              {(data.nombre_verifies ?? 0) > 0 ? ` dont ${data.nombre_verifies} vérifiés` : ""}
             </p>
           </div>
 
@@ -106,6 +111,11 @@ export function Avis() {
               className="flex flex-col rounded-[2px] bg-background p-7 shadow-[0_1px_0_0_var(--color-border)]"
             >
               <Stars value={a.note} size={16} />
+              {a.verifie === true && (
+                <p className="mt-2 text-[11px] uppercase tracking-[0.14em] text-accent">
+                  ✓ Séjour vérifié
+                </p>
+              )}
               {a.titre && (
                 <h3 className="mt-4 font-display text-[20px] leading-[1.3] text-foreground md:text-[24px]">
                   {a.titre}
@@ -133,6 +143,14 @@ export function Avis() {
             </Reveal>
           ))}
         </div>
+
+        {data.mention_legale && (
+          <p className="mx-auto mt-10 max-w-[760px] text-center text-[12px] leading-[1.6] text-muted-foreground">
+            {data.mention_legale}
+          </p>
+        )}
+
+
 
         {!expanded && avis.length > 6 && (
           <div className="mt-12 text-center">
