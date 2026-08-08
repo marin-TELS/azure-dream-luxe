@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BadgeCheck } from "lucide-react";
 import { APPLE, AdminStars, Badge, Btn, Card, Field, inputClass, inputStyle } from "./ui";
 import { moisCourt } from "./CalendrierTab";
 import type { AdminAvis } from "@/lib/adminTypes";
@@ -17,18 +18,40 @@ export function AvisTab({
   onCreer: (payload: Record<string, unknown>) => Promise<boolean>;
 }) {
   const [showForm, setShowForm] = useState(false);
-  const aValider = avis.filter((a) => !a.publie);
-  const publies = avis.filter((a) => a.publie);
+  const attente = avis.filter((a) => a.sollicite_sans_reponse);
+  const aValider = avis.filter((a) => !a.publie && !a.sollicite_sans_reponse);
+  const publies = avis.filter((a) => a.publie && !a.sollicite_sans_reponse);
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <p className="max-w-[640px] text-[13px] leading-relaxed" style={{ color: APPLE.muted }}>
+          Un avis est vérifié lorsqu'il provient d'un client ayant réellement séjourné, via le
+          lien personnel envoyé après son départ. Ce statut est calculé automatiquement et ne peut
+          pas être modifié.
+        </p>
         <Btn variant="primary" onClick={() => setShowForm((v) => !v)}>
           {showForm ? "Fermer" : "Ajouter un avis"}
         </Btn>
       </div>
 
       {showForm && <NouvelAvis onCreer={onCreer} onDone={() => setShowForm(false)} />}
+
+      {attente.length > 0 && (
+        <Groupe titre={`En attente de réponse (${attente.length})`}>
+          {attente.map((a) => (
+            <Card key={a.id} className="flex flex-wrap items-center justify-between gap-2 p-5">
+              <p className="text-[14px]" style={{ color: APPLE.text }}>
+                {a.auteur_nom}
+                {a.date_sejour ? ` · ${moisCourt(a.date_sejour)}` : ""}
+              </p>
+              <p className="text-[13px]" style={{ color: APPLE.muted }}>
+                Lien envoyé, pas encore de réponse
+              </p>
+            </Card>
+          ))}
+        </Groupe>
+      )}
 
       <Groupe titre={`À valider (${aValider.length})`}>
         {aValider.map((a) => (
