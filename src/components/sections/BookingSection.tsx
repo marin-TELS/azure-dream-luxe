@@ -22,19 +22,23 @@ const CALENDAR_CSS = `
 }
 .villa-dp .rdp-weekday { color: rgba(255,255,255,0.45); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 400; }
 .villa-dp .rdp-day_button {
-  width: 40px; height: 40px; border-radius: 2px; font-size: 14px;
-  color: rgba(255,255,255,0.88); transition: background-color 200ms ease, color 200ms ease;
+  width: 40px; height: 40px; min-width: 40px; min-height: 40px; border-radius: 2px; font-size: 14px;
+  color: rgba(255,255,255,0.88); transition: transform .16s ease, background-color .16s ease, color .16s ease;
 }
-.villa-dp .rdp-day_button:hover:not([disabled]) { background: rgba(255,255,255,0.12); }
-.villa-dp .rdp-disabled .rdp-day_button { color: rgba(255,255,255,0.18); text-decoration: line-through; }
+.villa-dp .rdp-day_button:not(:disabled):hover { transform: scale(1.18); position: relative; z-index: 2; }
+.villa-dp .rdp-day:not(.rdp-selected) .rdp-day_button:not(:disabled):hover { background: rgba(184,150,90,0.28); }
+.villa-dp .rdp-disabled .rdp-day_button { color: rgba(255,255,255,0.18); text-decoration: line-through; cursor: not-allowed; }
 .villa-dp .rdp-outside .rdp-day_button { color: rgba(255,255,255,0.15); }
-.villa-dp .rdp-range_middle .rdp-day_button { background: color-mix(in oklab, var(--color-accent) 30%, transparent); color: #fff; }
-.villa-dp .rdp-range_start .rdp-day_button,
-.villa-dp .rdp-range_end .rdp-day_button,
-.villa-dp .rdp-selected .rdp-day_button { background: var(--color-accent); color: var(--color-accent-foreground); }
+.villa-dp .rdp-range_middle .rdp-day_button { background: rgba(184,150,90,0.22); color: rgba(250,250,248,0.9); border-radius: 0; }
+.villa-dp .rdp-range_start .rdp-day_button { background: var(--color-accent); color: #0f0f0f; font-weight: 600; border-radius: 8px 0 0 8px; }
+.villa-dp .rdp-range_end .rdp-day_button { background: var(--color-accent); color: #0f0f0f; font-weight: 600; border-radius: 0 8px 8px 0; }
+.villa-dp .rdp-range_start.rdp-range_end .rdp-day_button { border-radius: 8px; }
 .villa-dp .rdp-today:not(.rdp-selected) .rdp-day_button { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3); }
 .villa-dp .rdp-button_previous, .villa-dp .rdp-button_next { color: #fff; }
 .villa-dp .rdp-chevron { fill: #fff; }
+@media (prefers-reduced-motion: reduce) {
+  .villa-dp .rdp-day_button { transition: none !important; transform: none !important; }
+}
 `;
 
 const fieldClass =

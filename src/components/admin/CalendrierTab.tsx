@@ -8,7 +8,8 @@ import type { PeriodeBloquee, Reservation } from "@/lib/adminTypes";
 
 const CSS = `
 .admin-dp { --rdp-cell-size: 38px; color: #1d1d1f; }
-.admin-dp .rdp-day_button { width: 38px; height: 38px; border-radius: 10px; font-size: 13px; }
+.admin-dp .rdp-day_button { width: 38px; height: 38px; border-radius: 10px; font-size: 13px; transition: transform .16s ease; }
+.admin-dp .rdp-day_button:not(:disabled):hover { transform: scale(1.15); position: relative; z-index: 2; }
 .admin-dp .rdp-weekday { color: #6e6e73; font-size: 11px; font-weight: 500; }
 .admin-dp .rdp-month_caption { color: #1d1d1f; font-size: 15px; font-weight: 600; }
 .admin-dp .rdp-day.sejour .rdp-day_button { background: #0071e3; color: #fff; }
@@ -17,8 +18,11 @@ const CSS = `
   background: repeating-linear-gradient(45deg, #e5e5ea, #e5e5ea 4px, #f5f5f7 4px, #f5f5f7 8px);
 }
 .admin-dp .rdp-selected .rdp-day_button { background: #0071e3; color: #fff; }
-.admin-dp .rdp-range_middle .rdp-day_button { background: rgba(0,113,227,0.18); color: #1d1d1f; }
-.admin-dp .rdp-disabled .rdp-day_button { color: #c7c7cc; }
+.admin-dp .rdp-range_middle .rdp-day_button { background: rgba(0,113,227,0.12); color: #1d1d1f; }
+.admin-dp .rdp-disabled .rdp-day_button { color: #c7c7cc; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) {
+  .admin-dp .rdp-day_button { transition: none !important; transform: none !important; }
+}
 `;
 
 function toDates(from: string, to: string) {
