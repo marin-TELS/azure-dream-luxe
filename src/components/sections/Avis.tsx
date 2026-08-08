@@ -41,8 +41,9 @@ export function Avis() {
   useEffect(() => {
     let cancelled = false;
     publicGet<AvisResponse>(`/avis?bien=${BIEN}`)
-      .then(({ data }) => {
-        if (!cancelled) setData(data);
+      .then(({ status, data }) => {
+        // Réponse d'erreur (404 « Bien introuvable », etc.) : on ignore, la section reste masquée.
+        if (!cancelled && status === 200) setData(data);
       })
       .catch(() => undefined);
     return () => {
