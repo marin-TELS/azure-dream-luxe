@@ -23,7 +23,13 @@ function moisLabel(mois: string) {
   return format(d, "LLL", { locale: fr });
 }
 
-export function OverviewTab({ stats }: { stats: Stats }) {
+export function OverviewTab({
+  stats,
+  onVoirAvis,
+}: {
+  stats: Stats;
+  onVoirAvis?: () => void;
+}) {
   const mensuel = (stats.mensuel ?? []).map((m) => ({
     ...m,
     label: moisLabel(m.mois),
@@ -47,14 +53,26 @@ export function OverviewTab({ stats }: { stats: Stats }) {
           value={euro(stats.revenu?.ca_confirme)}
           hint={`${euro(stats.revenu?.revenu_par_nuit_disponible)} par nuit disponible`}
         />
-        <StatCard label="Note moyenne" value={(stats.avis?.moyenne ?? 0).toFixed(1)}>
-          <div className="mt-2 flex items-center gap-2">
-            <AdminStars note={Math.round(stats.avis?.moyenne ?? 0)} />
-            <span className="text-[12px]" style={{ color: APPLE.muted }}>
-              {stats.avis?.nombre ?? 0} avis
-            </span>
-          </div>
-        </StatCard>
+        <div className="space-y-2">
+          <StatCard label="Note moyenne" value={(stats.avis?.moyenne ?? 0).toFixed(1)}>
+            <div className="mt-2 flex items-center gap-2">
+              <AdminStars note={Math.round(stats.avis?.moyenne ?? 0)} />
+            </div>
+            <p className="mt-2 text-[12px]" style={{ color: APPLE.muted }}>
+              {stats.avis?.nombre ?? 0} avis · {stats.avis?.verifies ?? 0} vérifiés
+            </p>
+          </StatCard>
+          {(stats.avis?.a_valider ?? 0) > 0 && (
+            <button
+              type="button"
+              onClick={onVoirAvis}
+              className="w-full rounded-full px-4 py-2 text-[13px] font-medium transition-opacity hover:opacity-85"
+              style={{ background: "rgba(255,149,0,0.16)", color: "#a15c00" }}
+            >
+              {stats.avis?.a_valider} avis à valider
+            </button>
+          )}
+        </div>
         <StatCard
           label="Demandes en attente"
           value={enAttente}

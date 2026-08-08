@@ -39,7 +39,7 @@ export type Stats = {
     delai_moyen_heures?: number;
     en_attente?: number;
   };
-  avis?: { moyenne?: number; nombre?: number };
+  avis?: { moyenne?: number; nombre?: number; verifies?: number; a_valider?: number };
   mensuel?: {
     mois: string;
     nuits: number;
@@ -71,4 +71,8 @@ export type AdminAvis = {
   source?: string | null;
   publie?: boolean;
   reponse?: string | null;
+  /** Calculé en base, non modifiable. */
+  verifie?: boolean;
+  /** Lien envoyé, avis pas encore déposé. */
+  sollicite_sans_reponse?: boolean;
 };
