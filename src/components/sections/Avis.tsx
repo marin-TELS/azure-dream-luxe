@@ -79,6 +79,7 @@ export function Avis() {
             <Stars value={moyenne} size={22} className="mt-4 justify-center" />
             <p className="mt-3 text-[14px] tracking-[0.1em] text-muted-foreground">
               {nombre} avis
+              {(data.nombre_verifies ?? 0) > 0 ? ` dont ${data.nombre_verifies} vérifiés` : ""}
             </p>
           </div>
 
@@ -110,6 +111,11 @@ export function Avis() {
               className="flex flex-col rounded-[2px] bg-background p-7 shadow-[0_1px_0_0_var(--color-border)]"
             >
               <Stars value={a.note} size={16} />
+              {a.verifie === true && (
+                <p className="mt-2 text-[11px] uppercase tracking-[0.14em] text-accent">
+                  ✓ Séjour vérifié
+                </p>
+              )}
               {a.titre && (
                 <h3 className="mt-4 font-display text-[20px] leading-[1.3] text-foreground md:text-[24px]">
                   {a.titre}
