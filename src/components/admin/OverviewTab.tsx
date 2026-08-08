@@ -67,7 +67,7 @@ export function OverviewTab({
               type="button"
               onClick={onVoirAvis}
               className="w-full rounded-full px-4 py-2 text-[13px] font-medium transition-opacity hover:opacity-85"
-              style={{ background: "rgba(255,149,0,0.16)", color: "#a15c00" }}
+              style={{ background: "rgba(255,149,0,0.16)", color: APPLE.orange }}
             >
               {stats.avis?.a_valider} avis à valider
             </button>
