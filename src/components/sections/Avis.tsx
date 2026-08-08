@@ -144,6 +144,14 @@ export function Avis() {
           ))}
         </div>
 
+        {data.mention_legale && (
+          <p className="mx-auto mt-10 max-w-[760px] text-center text-[12px] leading-[1.6] text-muted-foreground">
+            {data.mention_legale}
+          </p>
+        )}
+
+
+
         {!expanded && avis.length > 6 && (
           <div className="mt-12 text-center">
             <button
