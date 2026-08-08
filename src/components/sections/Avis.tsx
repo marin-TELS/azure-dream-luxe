@@ -13,6 +13,7 @@ type AvisItem = {
   auteur_nom?: string | null;
   date_sejour?: string | null;
   reponse?: string | null;
+  verifie?: boolean;
 };
 
 type AvisResponse = {
@@ -20,6 +21,9 @@ type AvisResponse = {
   nombre?: number;
   moyenne?: number;
   repartition?: { note: number; nombre: number }[];
+  nombre_verifies?: number;
+  moyenne_verifies?: number;
+  mention_legale?: string | null;
 };
 
 function moisSejour(date?: string | null) {
