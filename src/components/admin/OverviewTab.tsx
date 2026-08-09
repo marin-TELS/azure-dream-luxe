@@ -11,7 +11,9 @@ import {
 } from "recharts";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { Sparkles } from "lucide-react";
 import { APPLE, AdminStars, Card, StatCard } from "./ui";
+import { EtatVide } from "./EtatVide";
 import type { Stats } from "@/lib/adminTypes";
 
 const euro = (n?: number) =>
@@ -37,6 +39,19 @@ export function OverviewTab({
     tauxBasse: m.haute_saison ? 0 : m.taux,
   }));
   const enAttente = stats.demandes?.en_attente ?? 0;
+  const vide = (stats.sejours?.nombre ?? 0) === 0 && (stats.demandes?.total ?? 0) === 0;
+
+  if (vide) {
+    return (
+      <Card>
+        <EtatVide
+          icone={Sparkles}
+          titre="Votre tableau de bord se remplira tout seul"
+          texte="Taux d'occupation, chiffre d'affaires, note moyenne : ces indicateurs apparaîtront dès votre première réservation confirmée."
+        />
+      </Card>
+    );
+  }
 
   return (
     <div className="space-y-6">

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Star } from "lucide-react";
 import { APPLE, AdminStars, Badge, Btn, Card, Field, inputClass, inputStyle } from "./ui";
+import { EtatVide } from "./EtatVide";
 import { moisCourt } from "./CalendrierTab";
 import type { AdminAvis } from "@/lib/adminTypes";
 
@@ -37,6 +38,17 @@ export function AvisTab({
 
       {showForm && <NouvelAvis onCreer={onCreer} onDone={() => setShowForm(false)} />}
 
+      {avis.length === 0 ? (
+        <Card>
+          <EtatVide
+            icone={Star}
+            titre="Aucun avis pour le moment"
+            texte="Trois jours après chaque départ, vos clients reçoivent automatiquement une invitation à laisser un avis. Vous pouvez aussi recopier ici un avis reçu sur Airbnb ou Google."
+            action={{ label: "Ajouter un avis", onClick: () => setShowForm(true) }}
+          />
+        </Card>
+      ) : (
+        <>
       {attente.length > 0 && (
         <Groupe titre={`En attente de réponse (${attente.length})`}>
           {attente.map((a) => (
@@ -76,6 +88,8 @@ export function AvisTab({
           />
         ))}
       </Groupe>
+        </>
+      )}
     </div>
   );
 }
