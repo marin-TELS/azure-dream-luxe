@@ -1,4 +1,4 @@
-import { CalendarCheck, Home, Inbox, PiggyBank } from "lucide-react";
+import { CalendarCheck, Home, PiggyBank } from "lucide-react";
 import { APPLE, AdminStars, Badge, Btn, Card, StatCard } from "./ui";
 import type { Bien, Stats, VueGlobale } from "@/lib/adminTypes";
 
@@ -149,5 +149,3 @@ function Chiffre({
     </div>
   );
 }
-
-export const AGENCE_ICON = Inbox;
