@@ -74,8 +74,15 @@ function AdminPage() {
       toast.error("Clé incorrecte");
       localStorage.removeItem(ADMIN_KEY_STORAGE);
       setKey(null);
+    } else {
+      if (bienId) {
+        setBienId(undefined);
+        return;
+      }
+      toast.error("Impossible de charger votre espace. Réessayez.");
+      setData({} as ListResponse);
     }
-  }, [key, call]);
+  }, [key, call, bienId]);
 
   useEffect(() => {
     const stored = localStorage.getItem(ADMIN_KEY_STORAGE);
@@ -133,8 +140,14 @@ function AdminPage() {
   function logout() {
     localStorage.removeItem(ADMIN_KEY_STORAGE);
     setKey(null);
-    setData(null);
     setKeyInput("");
+    setData(null);
+    setBienId(undefined);
+    setAvis([]);
+    setVue(null);
+    setAgenceInit(false);
+    setCaduques(null);
+    setTab("apercu");
   }
 
   async function handleStatut(
@@ -252,12 +265,12 @@ function AdminPage() {
           <div className="flex items-center gap-3">
             {acces?.multi && (acces.biens?.length ?? 0) > 0 && (
               <select
+                aria-label="Choisir un bien"
                 className="rounded-xl px-3 py-2 text-[14px]"
                 style={inputStyle}
-                value={bienId ?? ""}
+                value={bienId ?? data?.bien?.id ?? ""}
                 onChange={(e) => setBienId(e.target.value || undefined)}
               >
-                <option value="">Tous les biens</option>
                 {acces.biens?.map((b) => (
                   <option key={b.id} value={b.id}>
                     {b.nom}
