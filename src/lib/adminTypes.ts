@@ -1,6 +1,24 @@
+export type Bien = { id: string; slug?: string; nom: string; ville?: string };
+
 export type Acces = {
+  libelle?: string;
+  portee?: "bien" | "agence" | string;
   multi?: boolean;
-  biens?: { id: string; nom: string }[];
+  biens?: Bien[];
+  bien_courant?: string | null;
+};
+
+export type VueGlobale = {
+  acces?: Acces;
+  par_bien?: { bien: Bien; stats: Stats }[];
+  totaux?: {
+    biens?: number;
+    en_attente?: number;
+    confirmees?: number;
+    ca_confirme?: number;
+    commission_economisee?: number;
+  };
+  error?: string;
 };
 
 export type Reservation = {
@@ -33,8 +51,14 @@ export type Stats = {
     revenu_par_nuit_disponible?: number;
     commission_economisee?: number;
   };
-  sejours?: { duree_moyenne?: number; groupe_moyen?: number; anticipation_jours?: number };
+  sejours?: {
+    nombre?: number;
+    duree_moyenne?: number;
+    groupe_moyen?: number;
+    anticipation_jours?: number;
+  };
   demandes?: {
+    total?: number;
     taux_transformation?: number;
     delai_moyen_heures?: number;
     en_attente?: number;
