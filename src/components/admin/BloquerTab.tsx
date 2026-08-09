@@ -2,7 +2,9 @@ import { useState } from "react";
 import { DayPicker, type DateRange } from "react-day-picker";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
+import { CalendarOff } from "lucide-react";
 import { APPLE, Btn, Card, Field, inputClass, inputStyle } from "./ui";
+import { EtatVide } from "./EtatVide";
 import { moisCourt } from "./CalendrierTab";
 import type { PeriodeBloquee } from "@/lib/adminTypes";
 
@@ -73,9 +75,11 @@ export function BloquerTab({
           Périodes bloquées
         </h3>
         {periodes.length === 0 ? (
-          <p className="mt-3 text-[14px]" style={{ color: APPLE.muted }}>
-            Aucune période bloquée.
-          </p>
+          <EtatVide
+            icone={CalendarOff}
+            titre="Aucune date bloquée"
+            texte="Bloquez vos congés, des travaux, ou une réservation prise par téléphone : ces dates disparaîtront du calendrier de votre site."
+          />
         ) : (
           <ul className="mt-4 divide-y" style={{ borderColor: APPLE.border }}>
             {periodes.map((p) => (

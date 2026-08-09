@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { differenceInCalendarDays, format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Inbox } from "lucide-react";
 import { APPLE, Badge, Btn, Card, Field, StatutBadge, inputClass, inputStyle } from "./ui";
+import { EtatVide } from "./EtatVide";
 import type { Reservation } from "@/lib/adminTypes";
 
 type Filtre = "en_attente" | "confirmee" | "refusee" | "toutes";
@@ -83,8 +84,26 @@ export function DemandesTab({
       )}
 
       {liste.length === 0 && (
-        <Card className="p-8 text-center text-[14px]" style={{ color: APPLE.muted }}>
-          Aucune demande dans cette catégorie.
+        <Card>
+          {reservations.length === 0 ? (
+            <EtatVide
+              icone={Inbox}
+              titre="Votre espace est prêt"
+              texte="Dès qu'un visiteur remplira le formulaire de votre site, sa demande arrivera ici et vous serez prévenu par email."
+            />
+          ) : filtre === "en_attente" ? (
+            <EtatVide
+              icone={Inbox}
+              titre="Aucune demande en attente"
+              texte="Les demandes envoyées depuis votre site apparaîtront ici. Vous recevrez aussi un email à chaque fois."
+            />
+          ) : (
+            <EtatVide
+              icone={Inbox}
+              titre="Aucune demande dans cette catégorie"
+              texte="Changez de filtre pour voir les autres demandes."
+            />
+          )}
         </Card>
       )}
 

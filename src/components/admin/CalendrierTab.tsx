@@ -2,7 +2,9 @@ import { DayPicker } from "react-day-picker";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
+import { CalendarDays } from "lucide-react";
 import { APPLE, Card } from "./ui";
+import { EtatVide } from "./EtatVide";
 import { periodeLabel } from "./DemandesTab";
 import type { PeriodeBloquee, Reservation } from "@/lib/adminTypes";
 
@@ -95,9 +97,11 @@ export function CalendrierTab({
           Séjours à venir
         </h3>
         {aVenir.length === 0 ? (
-          <p className="mt-3 text-[14px]" style={{ color: APPLE.muted }}>
-            Aucun séjour confirmé à venir.
-          </p>
+          <EtatVide
+            icone={CalendarDays}
+            titre="Aucun séjour confirmé"
+            texte="Les séjours que vous confirmez apparaîtront en bleu sur ce calendrier."
+          />
         ) : (
           <ul className="mt-4 divide-y" style={{ borderColor: APPLE.border }}>
             {aVenir.map((r) => (

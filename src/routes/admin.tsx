@@ -4,10 +4,12 @@ import { Toaster, toast } from "sonner";
 import { adminCall, ADMIN_KEY_STORAGE } from "@/lib/villaApi";
 import type {
   AdminAvis,
+  Bien,
   ListResponse,
   PeriodeBloquee,
   Reservation,
   Stats,
+  VueGlobale,
 } from "@/lib/adminTypes";
 import { APPLE, Btn, Card, FONT_STACK, inputClass, inputStyle } from "@/components/admin/ui";
 import { OverviewTab } from "@/components/admin/OverviewTab";
@@ -15,6 +17,7 @@ import { DemandesTab } from "@/components/admin/DemandesTab";
 import { CalendrierTab } from "@/components/admin/CalendrierTab";
 import { AvisTab } from "@/components/admin/AvisTab";
 import { BloquerTab } from "@/components/admin/BloquerTab";
+import { AgenceTab } from "@/components/admin/AgenceTab";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -31,7 +34,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-type Tab = "apercu" | "demandes" | "calendrier" | "avis" | "bloquer";
+type Tab = "agence" | "apercu" | "demandes" | "calendrier" | "avis" | "bloquer";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "apercu", label: "Vue d'ensemble" },
@@ -52,6 +55,8 @@ function AdminPage() {
   const [bienId, setBienId] = useState<string | undefined>(undefined);
   const [avis, setAvis] = useState<AdminAvis[]>([]);
   const [caduques, setCaduques] = useState<Reservation[] | null>(null);
+  const [vue, setVue] = useState<VueGlobale | null>(null);
+  const [agenceInit, setAgenceInit] = useState(false);
 
   const call = useCallback(
     async <T,>(body: Record<string, unknown>) => {
@@ -90,6 +95,27 @@ function AdminPage() {
   useEffect(() => {
     if (key && tab === "avis") void loadAvis();
   }, [key, tab, loadAvis]);
+
+  const estAgence = data?.acces?.portee === "agence";
+
+  useEffect(() => {
+    if (!key || !estAgence) return;
+    let annule = false;
+    void (async () => {
+      const { status, data: res } = await adminCall<VueGlobale>(key, { action: "vue_globale" });
+      if (!annule && status === 200) setVue(res);
+    })();
+    return () => {
+      annule = true;
+    };
+  }, [key, estAgence]);
+
+  useEffect(() => {
+    if (estAgence && !agenceInit) {
+      setTab("agence");
+      setAgenceInit(true);
+    }
+  }, [estAgence, agenceInit]);
 
   async function login(e: React.FormEvent) {
     e.preventDefault();
@@ -206,6 +232,7 @@ function AdminPage() {
   const reservations: Reservation[] = data?.reservations ?? [];
   const periodes: PeriodeBloquee[] = data?.periodes ?? [];
   const acces = data?.acces;
+  const tabs = estAgence ? [{ key: "agence" as Tab, label: "Tous les biens" }, ...TABS] : TABS;
 
   return (
     <div
@@ -245,7 +272,7 @@ function AdminPage() {
         </div>
         <div className="mx-auto max-w-[1100px] px-5">
           <div className="-mx-1 flex gap-1 overflow-x-auto px-1">
-            {TABS.map((t) => (
+            {tabs.map((t) => (
               <button
                 key={t.key}
                 type="button"
@@ -270,6 +297,15 @@ function AdminPage() {
           </p>
         ) : (
           <>
+            {tab === "agence" && estAgence && (
+              <AgenceTab
+                vue={vue}
+                onOuvrirBien={(b: Bien) => {
+                  setBienId(b.id);
+                  setTab("demandes");
+                }}
+              />
+            )}
             {tab === "apercu" && (
               <OverviewTab stats={stats} onVoirAvis={() => setTab("avis")} />
             )}
