@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { adminCall, ADMIN_KEY_STORAGE } from "@/lib/villaApi";
 import type {
@@ -18,6 +18,7 @@ import { CalendrierTab } from "@/components/admin/CalendrierTab";
 import { AvisTab } from "@/components/admin/AvisTab";
 import { BloquerTab } from "@/components/admin/BloquerTab";
 import { AgenceTab } from "@/components/admin/AgenceTab";
+import { OverviewSkeleton, SHIMMER_CSS } from "@/components/admin/Skeletons";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -252,6 +253,7 @@ function AdminPage() {
       className="min-h-screen"
       style={{ background: APPLE.bg, fontFamily: FONT_STACK, color: APPLE.text }}
     >
+      <style dangerouslySetInnerHTML={{ __html: SHIMMER_CSS }} />
       <Toaster position="top-center" richColors />
 
       <header className="border-b" style={{ borderColor: APPLE.border, background: "#fff" }}>
@@ -284,32 +286,15 @@ function AdminPage() {
           </div>
         </div>
         <div className="mx-auto max-w-[1100px] px-5">
-          <div className="-mx-1 flex gap-1 overflow-x-auto px-1">
-            {tabs.map((t) => (
-              <button
-                key={t.key}
-                type="button"
-                onClick={() => setTab(t.key)}
-                className="whitespace-nowrap border-b-2 px-3 py-3 text-[14px] font-medium transition-colors"
-                style={{
-                  borderColor: tab === t.key ? APPLE.blue : "transparent",
-                  color: tab === t.key ? APPLE.blue : APPLE.muted,
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
+          <TabBar tabs={tabs} actif={tab} onChange={setTab} />
         </div>
       </header>
 
       <main className="mx-auto max-w-[1100px] px-5 py-6 md:py-10">
         {!data ? (
-          <p className="text-[14px]" style={{ color: APPLE.muted }}>
-            Chargement…
-          </p>
+          <OverviewSkeleton />
         ) : (
-          <>
+          <div key={tab} className="admin-fade">
             {tab === "agence" && estAgence && (
               <AgenceTab
                 vue={vue}
@@ -320,7 +305,11 @@ function AdminPage() {
               />
             )}
             {tab === "apercu" && (
-              <OverviewTab stats={stats} onVoirAvis={() => setTab("avis")} />
+              <OverviewTab
+                stats={stats}
+                onVoirAvis={() => setTab("avis")}
+                onVoirDemandes={() => setTab("demandes")}
+              />
             )}
             {tab === "demandes" && (
               <DemandesTab
@@ -375,7 +364,7 @@ function AdminPage() {
             {tab === "bloquer" && (
               <BloquerTab periodes={periodes} onBloquer={bloquer} onDebloquer={debloquer} />
             )}
-          </>
+          </div>
         )}
       </main>
 
@@ -402,6 +391,53 @@ function AdminPage() {
           </Card>
         </div>
       )}
+    </div>
+  );
+}
+
+function TabBar({
+  tabs,
+  actif,
+  onChange,
+}: {
+  tabs: { key: Tab; label: string }[];
+  actif: Tab;
+  onChange: (t: Tab) => void;
+}) {
+  const refs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [indic, setIndic] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
+
+  useLayoutEffect(() => {
+    const el = refs.current[actif];
+    if (el) setIndic({ left: el.offsetLeft, width: el.offsetWidth });
+  }, [actif, tabs.length]);
+
+  return (
+    <div className="relative -mx-1 flex gap-1 overflow-x-auto px-1">
+      {tabs.map((t) => (
+        <button
+          key={t.key}
+          ref={(el) => {
+            refs.current[t.key] = el;
+          }}
+          type="button"
+          onClick={() => onChange(t.key)}
+          className="whitespace-nowrap px-3 py-3 text-[14px] font-medium transition-colors"
+          style={{ color: actif === t.key ? APPLE.blue : APPLE.muted }}
+        >
+          {t.label}
+        </button>
+      ))}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 h-[2px] rounded-full"
+        style={{
+          background: APPLE.blue,
+          left: indic.left,
+          width: indic.width,
+          transition: "left 250ms ease, width 250ms ease",
+        }}
+      />
     </div>
   );
 }
