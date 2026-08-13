@@ -18,6 +18,7 @@ import { CalendrierTab } from "@/components/admin/CalendrierTab";
 import { AvisTab } from "@/components/admin/AvisTab";
 import { BloquerTab } from "@/components/admin/BloquerTab";
 import { AgenceTab } from "@/components/admin/AgenceTab";
+import { OverviewSkeleton, SHIMMER_CSS } from "@/components/admin/Skeletons";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
