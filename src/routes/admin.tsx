@@ -285,32 +285,15 @@ function AdminPage() {
           </div>
         </div>
         <div className="mx-auto max-w-[1100px] px-5">
-          <div className="-mx-1 flex gap-1 overflow-x-auto px-1">
-            {tabs.map((t) => (
-              <button
-                key={t.key}
-                type="button"
-                onClick={() => setTab(t.key)}
-                className="whitespace-nowrap border-b-2 px-3 py-3 text-[14px] font-medium transition-colors"
-                style={{
-                  borderColor: tab === t.key ? APPLE.blue : "transparent",
-                  color: tab === t.key ? APPLE.blue : APPLE.muted,
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
+          <TabBar tabs={tabs} actif={tab} onChange={setTab} />
         </div>
       </header>
 
       <main className="mx-auto max-w-[1100px] px-5 py-6 md:py-10">
         {!data ? (
-          <p className="text-[14px]" style={{ color: APPLE.muted }}>
-            Chargement…
-          </p>
+          <OverviewSkeleton />
         ) : (
-          <>
+          <div key={tab} className="admin-fade">
             {tab === "agence" && estAgence && (
               <AgenceTab
                 vue={vue}
@@ -321,7 +304,11 @@ function AdminPage() {
               />
             )}
             {tab === "apercu" && (
-              <OverviewTab stats={stats} onVoirAvis={() => setTab("avis")} />
+              <OverviewTab
+                stats={stats}
+                onVoirAvis={() => setTab("avis")}
+                onVoirDemandes={() => setTab("demandes")}
+              />
             )}
             {tab === "demandes" && (
               <DemandesTab
