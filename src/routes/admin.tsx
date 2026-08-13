@@ -253,6 +253,7 @@ function AdminPage() {
       className="min-h-screen"
       style={{ background: APPLE.bg, fontFamily: FONT_STACK, color: APPLE.text }}
     >
+      <style dangerouslySetInnerHTML={{ __html: SHIMMER_CSS }} />
       <Toaster position="top-center" richColors />
 
       <header className="border-b" style={{ borderColor: APPLE.border, background: "#fff" }}>
