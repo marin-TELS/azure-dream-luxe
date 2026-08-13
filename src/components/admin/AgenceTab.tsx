@@ -1,8 +1,8 @@
 import { CalendarCheck, Home, PiggyBank } from "lucide-react";
 import { APPLE, AdminStars, Badge, Btn, Card, StatCard } from "./ui";
+import { Shimmer } from "./Skeletons";
+import { euro } from "./format";
 import type { Bien, Stats, VueGlobale } from "@/lib/adminTypes";
-
-const euro = (n?: number) => `${Math.round(n ?? 0).toLocaleString("fr-FR")} €`;
 
 export function AgenceTab({
   vue,
@@ -13,9 +13,23 @@ export function AgenceTab({
 }) {
   if (!vue) {
     return (
-      <p className="text-[14px]" style={{ color: APPLE.muted }}>
-        Chargement…
-      </p>
+      <div className="space-y-6">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <Card key={i} className="p-5 md:p-6">
+              <Shimmer className="h-4 w-24" />
+              <Shimmer className="mt-3 h-8 w-20" />
+              <Shimmer className="mt-3 h-3 w-28" />
+            </Card>
+          ))}
+        </div>
+        {[0, 1, 2].map((i) => (
+          <Card key={i} className="p-5 md:p-6">
+            <Shimmer className="h-5 w-48" />
+            <Shimmer className="mt-4 h-16 w-full rounded-2xl" />
+          </Card>
+        ))}
+      </div>
     );
   }
 
