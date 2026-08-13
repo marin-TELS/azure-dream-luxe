@@ -394,3 +394,50 @@ function AdminPage() {
     </div>
   );
 }
+
+function TabBar({
+  tabs,
+  actif,
+  onChange,
+}: {
+  tabs: { key: Tab; label: string }[];
+  actif: Tab;
+  onChange: (t: Tab) => void;
+}) {
+  const refs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [indic, setIndic] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
+
+  useLayoutEffect(() => {
+    const el = refs.current[actif];
+    if (el) setIndic({ left: el.offsetLeft, width: el.offsetWidth });
+  }, [actif, tabs.length]);
+
+  return (
+    <div className="relative -mx-1 flex gap-1 overflow-x-auto px-1">
+      {tabs.map((t) => (
+        <button
+          key={t.key}
+          ref={(el) => {
+            refs.current[t.key] = el;
+          }}
+          type="button"
+          onClick={() => onChange(t.key)}
+          className="whitespace-nowrap px-3 py-3 text-[14px] font-medium transition-colors"
+          style={{ color: actif === t.key ? APPLE.blue : APPLE.muted }}
+        >
+          {t.label}
+        </button>
+      ))}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 h-[2px] rounded-full"
+        style={{
+          background: APPLE.blue,
+          left: indic.left,
+          width: indic.width,
+          transition: "left 250ms ease, width 250ms ease",
+        }}
+      />
+    </div>
+  );
+}
