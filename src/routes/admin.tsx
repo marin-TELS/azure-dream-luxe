@@ -363,7 +363,7 @@ function AdminPage() {
             {tab === "bloquer" && (
               <BloquerTab periodes={periodes} onBloquer={bloquer} onDebloquer={debloquer} />
             )}
-          </>
+          </div>
         )}
       </main>
 
